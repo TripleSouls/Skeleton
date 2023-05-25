@@ -9,25 +9,9 @@ module.exports = class DBContext{
 
     Models = {};
 
-    constructor(Server, Options, ServerType = 1){
+    constructor(Server, Options = {}){
         this.Server = Server;
         this.Options = Options;
-        this.ServerType = ServerType;
-
-        this.#ParamsCheck(ServerType);
-    }
-
-    #ParamsCheck(ServerType){
-        const { Username, Password, DatabaseName } = this.Options;
-        if(ServerType == 1){
-            //sqlite
-        }else{
-            //mysql
-            if(!Username || !Password || !DatabaseName)
-                throw new Errror("MySql connection need Username, Password and DatabaseName");
-            
-        }
-
     }
 
     Sync(){
@@ -35,21 +19,10 @@ module.exports = class DBContext{
     }
 
     Connect(){
-        if(this.ServerType == 1){
-            this.DB = new Sequelize({
-                dialect : "sqlite",
-                storage : this.Server
-            });
-        }else{
-            const { Username, Password, DatabaseName } = this.Options;
-            this.DB = new Sequelize({
-                dialect : "mysql",
-                host : this.Server,
-                DatabaseName,
-                Username,
-                Password
-            });
-        }
+        this.DB = new Sequelize({
+            dialect : "sqlite",
+            storage : this.Server
+        });
     }
 
     async Check(){
