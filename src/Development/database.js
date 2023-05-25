@@ -8,14 +8,12 @@
 */
 const path = require("path");
 const ePost = require("./Entity/Post");
-const { Sequelize } = require("sequelize");
 
 module.exports = (DBContext, GlobalVariables) => {
 
     let dbLocation = path.join(GlobalVariables.DIRS.Development, "database.db");
-    console.log(dbLocation);
-    const DB = new DBContext(dbLocation, {}, 1);
     
+    const DB = new DBContext(dbLocation);
     DB.Connect();
 
     DB.SetModel(ePost.ModelName, ePost.Model);
